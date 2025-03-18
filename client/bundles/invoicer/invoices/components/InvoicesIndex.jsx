@@ -5,8 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { DataGrid } from '@mui/x-data-grid';
-import Box from '@mui/material/Box';
+import InvoicesTable from './InvoicesTable'
 
 import { session_path } from 'routes'
 
@@ -24,50 +23,16 @@ class InvoicesIndex extends Component {
     this.setState({ userId: event.target.value })
   }
 
-  columns = () => {
-    
-  }
-
   render() {
     const {
       users,
       invoices
     } = this.props
 
-    const columns = [
-    {
-      field: 'reference',
-      headerName: 'Reference',
-      width: 150,
-      editable: true,
-    },
-    {
-      field: 'amount',
-      headerName: 'Amount',
-      width: 150,
-      editable: true,
-    },
-    {
-      field: 'paused',
-      headerName: 'Paused',
-      type: 'number',
-      width: 110,
-      editable: true,
-    },
-    {
-      field: 'fullName',
-      headerName: 'Full name',
-      description: 'This column has a value getter and is not sortable.',
-      sortable: false,
-      width: 160,
-      valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
-    },
-  ];
-
     const usersList = users.map(user => {
       return <MenuItem value={user.id}>{user.first_name}</MenuItem>
     })
-
+    
     return (
       <div>
         Current user is {this.state.userId}
@@ -86,22 +51,7 @@ class InvoicesIndex extends Component {
           </FormControl>
         </form>
 
-        <Box sx={{ height: 400, width: '100%' }}>
-          <DataGrid
-            rows={invoices}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
-              },
-            }}
-            pageSizeOptions={[5]}
-            checkboxSelection
-            disableRowSelectionOnClick
-          />
-        </Box>
+        <InvoicesTable invoices={invoices}/>
       </div>
     );
   }
