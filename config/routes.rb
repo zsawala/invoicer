@@ -12,5 +12,6 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   resources :invoices, only: %i[index]
+  resources :sessions, only: %i[update]
   root "invoices#index"
 end

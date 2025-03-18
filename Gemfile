@@ -65,3 +65,4 @@ end
 gem "shakapacker", "= 8.2"
 gem "foreman"
 gem "react_on_rails", "= 14.0.4"
+gem "js-routes"

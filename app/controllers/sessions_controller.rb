@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class UsersController < ApplicationController
+class SessionsController < ApplicationController
   layout "hello_world"
 
   def update
-    @users = User.all
+    session[:current_user_id] = params[:id]
   end
 end
