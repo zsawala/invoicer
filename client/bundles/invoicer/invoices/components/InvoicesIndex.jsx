@@ -11,8 +11,6 @@ import {
 import Grid from '@mui/material/Grid2';
 import InvoicesTable from './InvoicesTable'
 
-import { session_path } from 'routes'
-
 class InvoicesIndex extends Component {
   constructor(props) {
     super(props)
@@ -23,14 +21,15 @@ class InvoicesIndex extends Component {
   }
 
   handleChange = (event) => {
-    fetch(session_path(event.target.value), { method: 'PUT' })
+    // fetch(session_path(event.target.value), { method: 'PUT' })
     this.setState({ userId: event.target.value })
   }
 
   render() {
     const {
       users,
-      invoices
+      invoices,
+      view
     } = this.props
 
     const usersList = users.map(user => {
@@ -57,7 +56,7 @@ class InvoicesIndex extends Component {
           </Grid>
 
           <Grid size={12}>
-            <InvoicesTable invoices={invoices}/>
+            <InvoicesTable invoices={invoices} view={view} userId={this.state.userId}/>
           </Grid>
         </Grid>
       </PageContainer>
@@ -66,7 +65,8 @@ class InvoicesIndex extends Component {
 }
 
 InvoicesIndex.propTypes = {
-  users: PropTypes.instanceOf(Array).isRequired, // this is passed from the Rails view
+  users: PropTypes.instanceOf(Array).isRequired,
+  view: PropTypes.object
 };
 
 export default InvoicesIndex;

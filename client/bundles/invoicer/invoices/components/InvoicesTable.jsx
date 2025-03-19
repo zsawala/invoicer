@@ -7,12 +7,12 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import InputNumberInterval from './InputNumberInterval'
 
-import { session_path } from 'routes'
+import { user_views_path, user_view_path } from 'routes'
 
 const InvoicesTable = (props) => {
   const apiRef = useGridApiRef();
 
-  const { invoices } = props
+  const { invoices, view, userId } = props
 
   const containsOnlyOperators = getGridStringOperators().filter((op => ['contains'].includes(op.value)));
 
@@ -65,8 +65,47 @@ const InvoicesTable = (props) => {
 
   const handleSaveButton = (event) => {
     const currentState = apiRef.current.exportState()
+
+    if (view) {
+      fetch(
+        user_views_path(userId),
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-RapidAPI-Key': 'your-api-key',
+            'X-RapidAPI-Host': 'jokes-by-api-ninjas.p.rapidapi.com',
+          },
+          body: JSON.stringify({
+            view: {
+              base: true,
+              visibility: currentState.columns.columnvisibilityModel,
+              filters: currentState.filter.filterModel.items
+            }
+          })
+        },
+      )
+    } else {
+      fetch(
+        user_view_path(userId, view.id),
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-RapidAPI-Key': 'your-api-key',
+            'X-RapidAPI-Host': 'jokes-by-api-ninjas.p.rapidapi.com',
+          },
+          body: JSON.stringify({
+            view: {
+              base: true,
+              visibility: currentState.columns.columnvisibilityModel,
+              filters: currentState.filter.filterModel.items
+            }
+          })
+        },
+      )
+    }
     console.log(currentState)
-    // fetch(session_path(event.target.value), { method: 'POST' })
   }
 
   const handleLoadButton = (event) => {
