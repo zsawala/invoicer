@@ -68,9 +68,9 @@ const InvoicesTable = (props) => {
 
     if (view) {
       fetch(
-        user_views_path(userId),
+        user_view_path(userId, view.id),
         {
-          method: 'POST',
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             'X-RapidAPI-Key': 'your-api-key',
@@ -79,7 +79,7 @@ const InvoicesTable = (props) => {
           body: JSON.stringify({
             view: {
               base: true,
-              visibility: currentState.columns.columnvisibilityModel,
+              visibility: currentState.columns.columnVisibilityModel,
               filters: currentState.filter.filterModel.items
             }
           })
@@ -87,9 +87,9 @@ const InvoicesTable = (props) => {
       )
     } else {
       fetch(
-        user_view_path(userId, view.id),
+        user_views_path(userId),
         {
-          method: 'PUT',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'X-RapidAPI-Key': 'your-api-key',

@@ -29,7 +29,7 @@ class InvoicesIndex extends Component {
     const {
       users,
       invoices,
-      view
+      baseView
     } = this.props
 
     const usersList = users.map(user => {
@@ -56,7 +56,7 @@ class InvoicesIndex extends Component {
           </Grid>
 
           <Grid size={12}>
-            <InvoicesTable invoices={invoices} view={view} userId={this.state.userId}/>
+            <InvoicesTable invoices={invoices} view={baseView} userId={this.state.userId}/>
           </Grid>
         </Grid>
       </PageContainer>
@@ -66,7 +66,8 @@ class InvoicesIndex extends Component {
 
 InvoicesIndex.propTypes = {
   users: PropTypes.instanceOf(Array).isRequired,
-  view: PropTypes.object
+  invoices: PropTypes.instanceOf(Array).isRequired,
+  baseView: PropTypes.instanceOf(Map)
 };
 
 export default InvoicesIndex;
