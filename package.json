@@ -23,6 +23,7 @@
     "@mui/icons-material": "^6.4.8",
     "@mui/material": "^6.4.8",
     "@mui/x-data-grid": "^7.28.0",
+    "@toolpad/core": "^0.13.0",
     "@types/babel__core": "^7.20.5",
     "@types/webpack": "^5.28.5",
     "babel-loader": "^8.4.1",

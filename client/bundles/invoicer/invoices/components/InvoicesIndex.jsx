@@ -5,6 +5,10 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import {
+  PageContainer
+} from '@toolpad/core/PageContainer';
+import Grid from '@mui/material/Grid2';
 import InvoicesTable from './InvoicesTable'
 
 import { session_path } from 'routes'
@@ -34,25 +38,29 @@ class InvoicesIndex extends Component {
     })
     
     return (
-      <div>
-        Current user is {this.state.userId}
-        <form>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">User</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={this.state.userId}
-              label="Age"
-              onChange={this.handleChange}
-            >
-              {usersList}
-            </Select>
-          </FormControl>
-        </form>
+      <PageContainer>
+        <Grid container spacing={1} >
+          <Grid size={12}>Current user is {this.state.userId} </Grid>
+          <Grid size={12}>
+            <FormControl fullWidth>
+              <InputLabel id="demo-simple-select-label">User</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={this.state.userId}
+                label="Age"
+                onChange={this.handleChange}
+              >
+                {usersList}
+              </Select>
+            </FormControl>
+          </Grid>
 
-        <InvoicesTable invoices={invoices}/>
-      </div>
+          <Grid size={12}>
+            <InvoicesTable invoices={invoices}/>
+          </Grid>
+        </Grid>
+      </PageContainer>
     );
   }
 }
