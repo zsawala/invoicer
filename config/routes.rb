@@ -12,7 +12,11 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   resources :users, only: [] do
-    resources :views, only: %i[show create update]
+    resources :views, only: %i[show create update] do
+      collection do
+        get :base, to: "views#base_show"
+      end
+    end
   end
   resources :invoices, only: %i[index]
   root "invoices#index"

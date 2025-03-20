@@ -2,12 +2,15 @@
 
 class ViewsController < ApplicationController
   def show
-    binding.b
-    @view = if params[:id]
-      View.find(params[:id])
-    else
-      View.find_by(base: true)
-    end
+    view = View.find(params[:id])
+
+    render json: { success: true, view: view.as_json }, status: 200
+  end
+
+  def base_show
+    view = View.find_by(user_id: params[:user_id], base: true) || View.new(filters: [], visibility: {}, base: true)
+
+    render json: { success: true, view: view.as_json }, status: 200
   end
 
   def create
@@ -33,6 +36,6 @@ class ViewsController < ApplicationController
   private
 
   def view_params
-    params.require(:view).permit(:base, :visibility, filters: [ :field, :id, :operator, :value ])
+    params.require(:view).permit(:base, :user_id, visibility: {}, filters: [ :field, :id, :operator, value: [] ])
   end
 end

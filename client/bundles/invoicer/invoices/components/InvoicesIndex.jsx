@@ -11,25 +11,40 @@ import {
 import Grid from '@mui/material/Grid2';
 import InvoicesTable from './InvoicesTable'
 
+import { base_user_views_path } from 'routes.js.erb'
+
 class InvoicesIndex extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      userId: props.users[0].id
+      userId: props.users[0].id,
+      view: props.baseView
     }
   }
 
   handleChange = (event) => {
-    // fetch(session_path(event.target.value), { method: 'PUT' })
-    this.setState({ userId: event.target.value })
+    fetch(
+      base_user_views_path(event.target.value),
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-RapidAPI-Key': 'your-api-key',
+          'X-RapidAPI-Host': 'jokes-by-api-ninjas.p.rapidapi.com',
+        }
+      },
+    ).then((response) => response.json())
+      .then((data) => {
+        this.setState({ view: data.view, userId: event.target.value })
+      })
+      .catch((error) => console.log(error));
   }
 
   render() {
     const {
       users,
-      invoices,
-      baseView
+      invoices
     } = this.props
 
     const usersList = users.map(user => {
@@ -56,7 +71,7 @@ class InvoicesIndex extends Component {
           </Grid>
 
           <Grid size={12}>
-            <InvoicesTable invoices={invoices} view={baseView} userId={this.state.userId}/>
+            <InvoicesTable invoices={invoices} view={this.state.view} userId={this.state.userId}/>
           </Grid>
         </Grid>
       </PageContainer>

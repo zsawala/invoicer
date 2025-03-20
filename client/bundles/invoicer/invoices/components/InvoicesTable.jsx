@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { DataGrid, useGridApiRef, getGridStringOperators } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
@@ -65,8 +65,8 @@ const InvoicesTable = (props) => {
 
   const handleSaveButton = (event) => {
     const currentState = apiRef.current.exportState()
-
-    if (view) {
+    
+    if (view.id) {
       fetch(
         user_view_path(userId, view.id),
         {
@@ -98,8 +98,9 @@ const InvoicesTable = (props) => {
           body: JSON.stringify({
             view: {
               base: true,
-              visibility: currentState.columns.columnvisibilityModel,
-              filters: currentState.filter.filterModel.items
+              visibility: currentState.columns.columnVisibilityModel,
+              filters: currentState.filter.filterModel.items,
+              user_id: userId
             }
           })
         },
@@ -108,20 +109,14 @@ const InvoicesTable = (props) => {
     console.log(currentState)
   }
 
-  const handleLoadButton = (event) => {
-    apiRef.current.restoreState({
-      density: "standard",
-      columns: {
-        orderedFields: ['paused', 'reference', 'amount']
-      }
-    });
-  }
+  useEffect(() => {
+    apiRef.current.setFilterModel({ items: view.filters })
+  })
 
   return(
     <Grid>
       <Stack spacing={2} direction="row">
         <Button onClick={handleSaveButton} variant="contained">Save default setting</Button>
-        <Button onClick={handleLoadButton} variant="contained">Load default setting</Button>
       </Stack>
       <Box sx={{ height: 400, width: '100%' }}>
         <DataGrid
