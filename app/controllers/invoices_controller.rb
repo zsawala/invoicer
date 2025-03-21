@@ -3,8 +3,7 @@
 class InvoicesController < ApplicationController
   layout "hello_world"
   def index
-    @users = User.all
+    @users = User.order(:created_at)
     @invoices = Invoice.all
-    @base_view = View.find_by(base: true)
   end
 end
