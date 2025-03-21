@@ -41,7 +41,7 @@ yarn-debug.log*
 .yarn-integrity
 
 # Ignore automatically generated js-routes files.
-/Users/zuzasawala/Documents/Projects/invoicer/client/routes.js
-/Users/zuzasawala/Documents/Projects/invoicer/client/routes.d.ts
+/Users/zuzasawala/Documents/Projects/client/routes.js
+/Users/zuzasawala/Documents/Projects/client/routes.d.ts
 
 config/database.yml

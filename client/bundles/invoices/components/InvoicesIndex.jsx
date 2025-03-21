@@ -10,8 +10,7 @@ import {
 } from '@toolpad/core/PageContainer';
 import Grid from '@mui/material/Grid2';
 import InvoicesTable from './InvoicesTable'
-
-import { base_user_views_path } from 'routes.js.erb'
+import { Actions } from '../../views/actions'
 
 class InvoicesIndex extends Component {
   constructor(props) {
@@ -23,22 +22,16 @@ class InvoicesIndex extends Component {
     }
   }
 
+  updateUserIdState = (view) => {
+    this.setState({ view: view, userId: this.state.userId })
+  }
+
   handleChange = (event) => {
-    fetch(
-      base_user_views_path(event.target.value),
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-RapidAPI-Key': 'your-api-key',
-          'X-RapidAPI-Host': 'jokes-by-api-ninjas.p.rapidapi.com',
-        }
-      },
-    ).then((response) => response.json())
-      .then((data) => {
-        this.setState({ view: data.view, userId: event.target.value })
-      })
-      .catch((error) => console.log(error));
+    this.setState({ view: this.state.view, userId: event.target.value })
+    Actions.getBaseView(
+      event.target.value,
+      this.updateUserIdState.bind(this)
+    )
   }
 
   render() {
