@@ -57,4 +57,16 @@ export class Actions {
       },
     )
   }
+
+  static getViews(userId) {
+    fetch(
+      user_views_path(userId),
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      },
+    )
+  }
 }

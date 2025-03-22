@@ -1,6 +1,6 @@
 <h1>Hello World</h1>
 <%= react_component(
   "InvoicesIndex", props: { 
-    users: @users.as_json, invoices: @invoices.as_json, baseView: @users.first.base_view.as_json
+    users: @users.as_json, invoices: @invoices.as_json, baseView: @users.first.views.find_by(base: true).as_json
   }, prerender: false
 ) %>

@@ -10,16 +10,12 @@ import {
 } from '@toolpad/core/PageContainer';
 import Grid from '@mui/material/Grid2';
 import InvoicesTable from './InvoicesTable'
+import ShowViewsButton from '../../views/components/ShowViewsButton';
 import { Actions } from '../../views/actions'
 
 class InvoicesIndex extends Component {
   constructor(props) {
     super(props)
-
-    this.state = {
-      userId: props.users[0].id,
-      view: props.baseView
-    }
   }
 
   updateUserIdState = (view) => {
@@ -43,6 +39,16 @@ class InvoicesIndex extends Component {
     const usersList = users.map(user => {
       return <MenuItem value={user.id}>{user.first_name}</MenuItem>
     })
+
+    if (this.state.views != []) {
+      debugger
+      screen = <ViewsIndex views={this.state.views} userId={this.state.userId} setViews={setViews} setView={setView}/>
+      button = <ShowViewsButton userId={this.state.userId} setViews={setViews}/>
+    } else {
+      debugger
+      screen = <InvoicesTable invoices={invoices} view={this.state.view} userId={this.state.userId}/>
+      // button = <ShowInvoicesButton setViews={setViews}/>
+    }
     
     return (
       <PageContainer>
@@ -64,7 +70,8 @@ class InvoicesIndex extends Component {
           </Grid>
 
           <Grid size={12}>
-            <InvoicesTable invoices={invoices} view={this.state.view} userId={this.state.userId}/>
+            {/* {button} */}
+            {screen}
           </Grid>
         </Grid>
       </PageContainer>

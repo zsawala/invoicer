@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   resources :users, only: [] do
-    resources :views, only: %i[show create update] do
+    resources :views, only: %i[show create update index] do
       collection do
         get :base, to: "views#base_show"
       end

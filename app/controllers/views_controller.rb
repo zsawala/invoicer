@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class ViewsController < ApplicationController
+  def index
+    views = View.where(user_id: params[:user_id])
+
+    render json: { success: true, views: views.as_json }, status: 200
+  end
+
   def show
     view = View.find(params[:id])
 
