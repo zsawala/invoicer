@@ -11,11 +11,22 @@ import {
 import Grid from '@mui/material/Grid2';
 import InvoicesTable from './InvoicesTable'
 import ShowViewsButton from '../../views/components/ShowViewsButton';
+import ShowInvoicesButton from './ShowInvoicesButton';
+import ViewsIndex from '../../views/components/ViewsIndex';
 import { Actions } from '../../views/actions'
 
 class InvoicesIndex extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      views: [],
+      userId: props.users[0].id,
+      view: props.baseView
+    }
+
+    this.setViews = this.setViews.bind(this)
+    this.setView = this.setView.bind(this)
   }
 
   updateUserIdState = (view) => {
@@ -30,6 +41,14 @@ class InvoicesIndex extends Component {
     )
   }
 
+  setViews(views) {
+    this.setState({ view: this.state.view, userId: this.state.userId, views: views })
+  }
+
+  setView(view) {
+    this.setState({ view: view, userId: this.state.userId, views: this.state.views })
+  }
+
   render() {
     const {
       users,
@@ -40,16 +59,17 @@ class InvoicesIndex extends Component {
       return <MenuItem value={user.id}>{user.first_name}</MenuItem>
     })
 
-    if (this.state.views != []) {
-      debugger
-      screen = <ViewsIndex views={this.state.views} userId={this.state.userId} setViews={setViews} setView={setView}/>
-      button = <ShowViewsButton userId={this.state.userId} setViews={setViews}/>
-    } else {
+    let button = null;
+    if (this.state.views.length == 0) {
       debugger
       screen = <InvoicesTable invoices={invoices} view={this.state.view} userId={this.state.userId}/>
-      // button = <ShowInvoicesButton setViews={setViews}/>
+      button = <ShowViewsButton userId={this.state.userId} setViews={this.setViews}/>
+    } else {
+      debugger
+      screen = <ViewsIndex views={this.state.views} userId={this.state.userId} setViews={this.setViews} setView={this.setView}/>
+      button = <ShowInvoicesButton setViews={this.setViews}/>
     }
-    
+
     return (
       <PageContainer>
         <Grid container spacing={1} >
@@ -70,7 +90,7 @@ class InvoicesIndex extends Component {
           </Grid>
 
           <Grid size={12}>
-            {/* {button} */}
+            {button}
             {screen}
           </Grid>
         </Grid>

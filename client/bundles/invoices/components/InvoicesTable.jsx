@@ -66,6 +66,18 @@ const InvoicesTable = (props) => {
     apiRef.current.setFilterModel({ items: view.filters })
   })
 
+  const handleSaveDefaultButton = (event) => {
+    const currentState = apiRef.current.exportState()
+    const visibility = currentState.columns.columnVisibilityModel
+    const filters = currentState.filter.filterModel.items
+
+    if (view.id) {
+      Actions.updateView(userId, view.id, true, visibility, filters)
+    } else {
+      Actions.createView(userId, true, visibility, filters)
+    }
+  }
+
   const handleSaveButton = (event) => {
     const currentState = apiRef.current.exportState()
     const visibility = currentState.columns.columnVisibilityModel
@@ -81,7 +93,8 @@ const InvoicesTable = (props) => {
   return(
     <Grid>
       <Stack spacing={2} direction="row">
-        <Button onClick={handleSaveButton} variant="contained">Save default setting</Button>
+        <Button onClick={handleSaveDefaultButton} variant="contained">Save default view</Button>
+        <Button onClick={handleSaveButton} variant="contained">Save view</Button>
       </Stack>
       <Box sx={{ height: 400, width: '100%' }}>
         <DataGrid

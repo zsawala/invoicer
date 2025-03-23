@@ -58,7 +58,7 @@ export class Actions {
     )
   }
 
-  static getViews(userId) {
+  static getViews(userId, callback) {
     fetch(
       user_views_path(userId),
       {
@@ -67,6 +67,12 @@ export class Actions {
           'Content-Type': 'application/json'
         }
       },
-    )
+    ).then((response) => response.json())
+      .then((data) => {
+        if (callback) {
+          callback(data.views)
+        }
+      })
+      .catch((error) => console.log(error));
   }
 }

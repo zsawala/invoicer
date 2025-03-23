@@ -7,9 +7,7 @@ const ShowViewsButton = (props) => {
   const { setViews, userId } = props
 
   const handleButton = (event) => {
-    views = Actions.getViews(userId)
-
-    setViews(views)
+    Actions.getViews(userId, setViews)
   }
 
   return(

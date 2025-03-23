@@ -9,7 +9,7 @@ const ShowInvoicesButton = (props) => {
   }
 
   return(
-    <Button onClick={handleButton} variant="contained">Views</Button>
+    <Button onClick={handleButton} variant="contained">Invoices</Button>
   )
 }
 
