@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Fragment, Component, useState } from 'react'
-import * as style from './index.module.css';
+import React, { Component } from 'react'
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
@@ -8,11 +7,13 @@ import MenuItem from '@mui/material/MenuItem';
 import {
   PageContainer
 } from '@toolpad/core/PageContainer';
-import Grid from '@mui/material/Grid2';
 import InvoicesTable from './InvoicesTable'
 import ShowViewsButton from '../../views/components/ShowViewsButton';
 import ShowInvoicesButton from './ShowInvoicesButton';
 import ViewsIndex from '../../views/components/ViewsIndex';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import { Actions } from '../../views/actions'
 
 class InvoicesIndex extends Component {
@@ -22,11 +23,11 @@ class InvoicesIndex extends Component {
     this.state = {
       views: [],
       userId: props.users[0].id,
-      view: props.baseView
+      view: props.view
     }
 
     this.setViews = this.setViews.bind(this)
-    this.setView = this.setView.bind(this)
+    this.setViewAndViews = this.setViewAndViews.bind(this)
   }
 
   updateUserIdState = (view) => {
@@ -35,7 +36,7 @@ class InvoicesIndex extends Component {
 
   handleChange = (event) => {
     this.setState({ view: this.state.view, userId: event.target.value })
-    Actions.getBaseView(
+    Actions.getView(
       event.target.value,
       this.updateUserIdState.bind(this)
     )
@@ -45,8 +46,8 @@ class InvoicesIndex extends Component {
     this.setState({ view: this.state.view, userId: this.state.userId, views: views })
   }
 
-  setView(view) {
-    this.setState({ view: view, userId: this.state.userId, views: this.state.views })
+  setViewAndViews(view, views) {
+    this.setState({ view: view, userId: this.state.userId, views: views })
   }
 
   render() {
@@ -61,40 +62,47 @@ class InvoicesIndex extends Component {
 
     let button = null;
     if (this.state.views.length == 0) {
-      debugger
       screen = <InvoicesTable invoices={invoices} view={this.state.view} userId={this.state.userId}/>
       button = <ShowViewsButton userId={this.state.userId} setViews={this.setViews}/>
     } else {
-      debugger
-      screen = <ViewsIndex views={this.state.views} userId={this.state.userId} setViews={this.setViews} setView={this.setView}/>
+      screen = <ViewsIndex views={this.state.views} userId={this.state.userId} setViewAndViews={this.setViewAndViews}/>
       button = <ShowInvoicesButton setViews={this.setViews}/>
     }
 
-    return (
-      <PageContainer>
-        <Grid container spacing={1} >
-          <Grid size={12}>Current user is {this.state.userId} </Grid>
-          <Grid size={12}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">User</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={this.state.userId}
-                label="Age"
-                onChange={this.handleChange}
-              >
-                {usersList}
-              </Select>
-            </FormControl>
-          </Grid>
+    const options = {
+      position: positions.BOTTOM_CENTER,
+      timeout: 5000,
+      offset: '30px',
+      transition: transitions.SCALE
+    }
 
-          <Grid size={12}>
-            {button}
+    return (
+      <AlertProvider {...options}>
+        <PageContainer>
+          <Box sx={{ height: 150, width: '100%' }}>
+            <Stack spacing={2} direction="row">Current user is {this.state.userId}</Stack>
+            <Stack spacing={2} direction="row">
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">User</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={this.state.userId}
+                  label="Age"
+                  onChange={this.handleChange}
+                >
+                  {usersList}
+                </Select>
+              </FormControl>
+            </Stack>
+            <Stack spacing={2} direction="row">{button}</Stack>
+          </Box>
+
+          <Box sx={{ height: 400, width: '100%' }}>
             {screen}
-          </Grid>
-        </Grid>
-      </PageContainer>
+          </Box>
+        </PageContainer>
+      </AlertProvider>
     );
   }
 }
@@ -102,7 +110,7 @@ class InvoicesIndex extends Component {
 InvoicesIndex.propTypes = {
   users: PropTypes.instanceOf(Array).isRequired,
   invoices: PropTypes.instanceOf(Array).isRequired,
-  baseView: PropTypes.instanceOf(Map)
+  view: PropTypes.instanceOf(Map)
 };
 
 export default InvoicesIndex;

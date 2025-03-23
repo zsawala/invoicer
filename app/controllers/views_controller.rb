@@ -13,12 +13,6 @@ class ViewsController < ApplicationController
     render json: { success: true, view: view.as_json }, status: 200
   end
 
-  def base_show
-    view = View.find_by(user_id: params[:user_id], base: true) || View.new(filters: [], visibility: {}, base: true)
-
-    render json: { success: true, view: view.as_json }, status: 200
-  end
-
   def create
     view = View.new(view_params)
 

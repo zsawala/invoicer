@@ -37,6 +37,7 @@
     "prop-types": "^15.8.1",
     "rails-erb-loader": "^5.5.2",
     "react": "^19.0.0",
+    "react-alert": "^7.0.3",
     "react-dom": "^19.0.0",
     "react-on-rails": "^14.0.4",
     "shakapacker": "8.2.0",

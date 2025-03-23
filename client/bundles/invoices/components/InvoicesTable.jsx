@@ -66,36 +66,38 @@ const InvoicesTable = (props) => {
     apiRef.current.setFilterModel({ items: view.filters })
   })
 
-  const handleSaveDefaultButton = (event) => {
+  const handleCreateButton = (event) => {
+    const currentState = apiRef.current.exportState()
+    const visibility = currentState.columns.columnVisibilityModel
+    const filters = currentState.filter.filterModel.items
+
+    Actions.createView(userId, true, visibility, filters)
+  }
+
+  const handleUpdateButton = (event) => {
     const currentState = apiRef.current.exportState()
     const visibility = currentState.columns.columnVisibilityModel
     const filters = currentState.filter.filterModel.items
 
     if (view.id) {
       Actions.updateView(userId, view.id, true, visibility, filters)
-    } else {
-      Actions.createView(userId, true, visibility, filters)
     }
   }
 
-  const handleSaveButton = (event) => {
-    const currentState = apiRef.current.exportState()
-    const visibility = currentState.columns.columnVisibilityModel
-    const filters = currentState.filter.filterModel.items
-
-    if (view.id) {
-      Actions.updateView(userId, view.id, true, visibility, filters)
-    } else {
-      Actions.createView(userId, true, visibility, filters)
-    }
+  let updateButton = null;
+  if(view.id) {
+    updateButton = <Button onClick={handleUpdateButton} variant="contained">Update view</Button>
   }
 
   return(
     <Grid>
-      <Stack spacing={2} direction="row">
-        <Button onClick={handleSaveDefaultButton} variant="contained">Save default view</Button>
-        <Button onClick={handleSaveButton} variant="contained">Save view</Button>
-      </Stack>
+      <Box sx={{ height: 100, width: '100%' }}>
+        Currently displayed view id is {view.id}
+        <Stack spacing={2} direction="row">
+          <Button onClick={handleCreateButton} variant="contained">Create new view</Button>
+          {updateButton}
+        </Stack>
+      </Box>
       <Box sx={{ height: 400, width: '100%' }}>
         <DataGrid
           rows={invoices}

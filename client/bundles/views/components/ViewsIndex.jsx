@@ -16,10 +16,9 @@ class ViewsIndex extends Component {
   }
 
   handleEditButton = (view, event) => {
-    const { setViews, setView } = this.props
+    const { setViewAndViews } = this.props
 
-    setView(view)
-    setViews([])
+    setViewAndViews(view, [])
   }
 
   render() {
@@ -29,11 +28,11 @@ class ViewsIndex extends Component {
 
     const viewsList = views.map(view => {
       return <TableRow>
-        <TableCell>{view.base.toString()}</TableCell>
+        <TableCell>{view.id.toString()}</TableCell>
         <TableCell align="left">{JSON.stringify(view.visibility)}</TableCell>
         <TableCell align="left">{JSON.stringify(view.filters)}</TableCell>
         <TableCell align="left">
-            <Button onClick={this.handleEditButton.bind(this, view)} variant="contained">Edit</Button>
+            <Button onClick={this.handleEditButton.bind(this, view)} variant="contained">View</Button>
           </TableCell>
       </TableRow>
     })
@@ -44,7 +43,7 @@ class ViewsIndex extends Component {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Default</TableCell>
+                <TableCell align="left">Id</TableCell>
                 <TableCell align="left">Visibility</TableCell>
                 <TableCell align="left">Filters</TableCell>
                 <TableCell align="left">Action</TableCell>

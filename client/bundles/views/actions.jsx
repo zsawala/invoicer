@@ -1,24 +1,7 @@
-import { user_views_path, user_view_path, base_user_views_path } from 'routes'
+import { user_views_path, user_view_path } from 'routes'
+import { Alert } from 'react-alert'
 
 export class Actions {
-  static getBaseView(userId, callback) {
-    fetch(
-      base_user_views_path(userId),
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      },
-    ).then((response) => response.json())
-      .then((data) => {
-        if (callback) {
-          callback(data.view)
-        }
-      })
-      .catch((error) => console.log(error));
-  }
-
   static createView(userId, base, visibility, filters) {
     fetch(
       user_views_path(userId),
@@ -29,14 +12,21 @@ export class Actions {
         },
         body: JSON.stringify({
           view: {
-            base: base,
             visibility: visibility,
             filters: filters,
             user_id: userId
           }
         })
       },
-    )
+    ).then((response) => response.json())
+    .then((data) => {
+        if (data.success) {
+          alert('View created successfully')
+        } else {
+          alert('View creation failed')
+        }
+      })
+      .catch((error) => console.log(error));
   }
 
   static updateView(userId, viewId, base, visibility, filters) {
@@ -49,13 +39,20 @@ export class Actions {
         },
         body: JSON.stringify({
           view: {
-            base: base,
             visibility: visibility,
             filters: filters
           }
         })
       },
-    )
+    ).then((response) => response.json())
+    .then((data) => {
+        if (data.success) {
+          alert('View updated successfully')
+        } else {
+          alert('View update failed')
+        }
+      })
+      .catch((error) => console.log(error));
   }
 
   static getViews(userId, callback) {
