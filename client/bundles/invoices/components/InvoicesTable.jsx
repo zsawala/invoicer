@@ -63,7 +63,10 @@ const InvoicesTable = (props) => {
   const { invoices, view, userId } = props
 
   useEffect(() => {
-    apiRef.current.setFilterModel({ items: view.filters })
+    if(view){
+      apiRef.current.setFilterModel({ items: view.filters })
+      apiRef.current.setColumnVisibilityModel(view.visibility)
+    }
   })
 
   const handleCreateButton = (event) => {
@@ -71,7 +74,7 @@ const InvoicesTable = (props) => {
     const visibility = currentState.columns.columnVisibilityModel
     const filters = currentState.filter.filterModel.items
 
-    Actions.createView(userId, true, visibility, filters)
+    Actions.createView(userId, visibility, filters)
   }
 
   const handleUpdateButton = (event) => {
@@ -79,20 +82,22 @@ const InvoicesTable = (props) => {
     const visibility = currentState.columns.columnVisibilityModel
     const filters = currentState.filter.filterModel.items
 
-    if (view.id) {
-      Actions.updateView(userId, view.id, true, visibility, filters)
+    if(view) {
+      Actions.updateView(userId, view.id, visibility, filters)
     }
   }
 
   let updateButton = null;
-  if(view.id) {
+  let displayLabel = null;
+  if(view) {
+    displayLabel = <div>Currently displayed view id is {view.id}</div> 
     updateButton = <Button onClick={handleUpdateButton} variant="contained">Update view</Button>
   }
 
   return(
     <Grid>
       <Box sx={{ height: 100, width: '100%' }}>
-        Currently displayed view id is {view.id}
+        {displayLabel}
         <Stack spacing={2} direction="row">
           <Button onClick={handleCreateButton} variant="contained">Create new view</Button>
           {updateButton}

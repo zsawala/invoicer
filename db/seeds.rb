@@ -8,8 +8,8 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-User.create!(first_name: 'Harry', last_name: 'Potter', email: 'harry.potter@gmail.com')
-User.create!(first_name: 'Ron', last_name: 'Weasly', email: 'ron.weasly@gmail.com')
+User.find_or_create_by(first_name: 'Harry', last_name: 'Potter', email: 'harry.potter@gmail.com')
+User.find_or_create_by(first_name: 'Ron', last_name: 'Weasly', email: 'ron.weasly@gmail.com')
 
 10.times do |value|
   Invoice.create!(reference: SecureRandom.uuid, amount: Random.rand(100), paused: value.even?)

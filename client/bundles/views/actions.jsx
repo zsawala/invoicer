@@ -1,8 +1,7 @@
 import { user_views_path, user_view_path } from 'routes'
-import { Alert } from 'react-alert'
 
 export class Actions {
-  static createView(userId, base, visibility, filters) {
+  static createView(userId, visibility, filters) {
     fetch(
       user_views_path(userId),
       {
@@ -29,7 +28,7 @@ export class Actions {
       .catch((error) => console.log(error));
   }
 
-  static updateView(userId, viewId, base, visibility, filters) {
+  static updateView(userId, viewId, visibility, filters) {
     fetch(
       user_view_path(userId, viewId),
       {
@@ -55,7 +54,7 @@ export class Actions {
       .catch((error) => console.log(error));
   }
 
-  static getViews(userId, callback) {
+  static getViews(userId, setView = null, setViews = null) {
     fetch(
       user_views_path(userId),
       {
@@ -66,8 +65,12 @@ export class Actions {
       },
     ).then((response) => response.json())
       .then((data) => {
-        if (callback) {
-          callback(data.views)
+        if (setView) {
+          setView(data.views[0])
+        }
+
+        if (setViews) {
+          setViews(data.views)
         }
       })
       .catch((error) => console.log(error));

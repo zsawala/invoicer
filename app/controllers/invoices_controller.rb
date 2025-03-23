@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class InvoicesController < ApplicationController
-  layout "hello_world"
+  layout "invoicer"
   def index
     @users = User.order(:created_at)
     @invoices = Invoice.all

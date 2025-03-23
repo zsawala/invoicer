@@ -1,5 +1,5 @@
 <%= react_component(
-  "InvoicesIndex", props: { 
+  "Invoices", props: { 
     users: @users.as_json, invoices: @invoices.as_json, view: @users.first.views.order(:created_at).first.as_json
   }, prerender: false
 ) %>

@@ -7,7 +7,7 @@ const ShowViewsButton = (props) => {
   const { setViews, userId } = props
 
   const handleButton = (event) => {
-    Actions.getViews(userId, setViews)
+    Actions.getViews(userId, null, setViews)
   }
 
   return(
@@ -16,7 +16,8 @@ const ShowViewsButton = (props) => {
 }
 
 ShowViewsButton.propTypes = {
-  userId: PropTypes.instanceOf(Number).isRequired
+  userId: PropTypes.instanceOf(Number).isRequired,
+  setViews: PropTypes.instanceOf(Function).isRequired,
 }
 
 export default ShowViewsButton

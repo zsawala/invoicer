@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
-class ViewsIndex extends Component {
+class Views extends Component {
   constructor(props) {
     super(props)
   }
@@ -22,9 +22,7 @@ class ViewsIndex extends Component {
   }
 
   render() {
-    const {
-      views
-    } = this.props
+    const { views } = this.props
 
     const viewsList = views.map(view => {
       return <TableRow>
@@ -59,9 +57,9 @@ class ViewsIndex extends Component {
   }
 }
 
-ViewsIndex.propTypes = {
+Views.propTypes = {
   views: PropTypes.instanceOf(Array).isRequired,
-  userId: PropTypes.instanceOf(Number).isRequired
+  setViewAndViews: PropTypes.instanceOf(Function).isRequired
 };
 
-export default ViewsIndex;
+export default Views;
