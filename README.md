@@ -1,24 +1,12 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+How to run the project: \
+`bundle install` \
+`./bin/dev` 
 
-Things you may want to cover:
+Then enter the browser with `localhost:3000`
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Stack:
+BE -> Ruby on Rails \
+FE -> React (using React on Rails to make development faster) \
+Tests -> Rspec 
