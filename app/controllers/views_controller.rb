@@ -8,7 +8,7 @@ class ViewsController < ApplicationController
   end
 
   def create
-    view = View.new(view_params)
+    view = user.views.new(view_params)
 
     if view.save
       render json: { success: true, view: view.as_json }, status: 201
@@ -18,7 +18,7 @@ class ViewsController < ApplicationController
   end
 
   def update
-    view = View.find_by(id: params[:id])
+    view = user.views.find_by(id: params[:id])
 
     if view.update(view_params)
       render json: { success: true, view: view.as_json }, status: 200
@@ -28,6 +28,10 @@ class ViewsController < ApplicationController
   end
 
   private
+
+  def user
+    @user ||= User.find(params[:user_id])
+  end
 
   def view_params
     params.require(:view).permit(

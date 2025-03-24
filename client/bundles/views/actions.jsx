@@ -12,8 +12,7 @@ export class Actions {
         body: JSON.stringify({
           view: {
             visibility: visibility,
-            filters: filters,
-            user_id: userId
+            filters: filters
           }
         })
       },
